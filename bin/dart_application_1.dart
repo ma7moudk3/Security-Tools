@@ -1,11 +1,6 @@
 
-import 'package:dart_application_1/encryption_helper.dart';
 
 void main(List<String> arguments) {
-  String encrypted = Encryption.encrypt("Hi Mahmoud");
-  print(encrypted);
-  String decrypted = Encryption.decrypt(encrypted);
-  print(decrypted);
 
   // var key = base64.decode('9JYmap3xB79oyBkY6ZIdJCXaOr/CurCK8XUsRZL9XXI=');
   // var params = base64.decode('BBChkSMIq/v35PRRWAJGwtTr');

@@ -1,9 +1,10 @@
-
 import 'encryption_helper.dart';
 
 void main(List<String> args) {
-  print(Encryption.encrypt("Hi Mahmmoud"));
-  print(Encryption.decrypt("3s8LGcm7avGt6yrE0kS/AQ=="));
+  String key = "1122334455667788";
+  String encryptedText = Encryption.encrypt(key: key, text: "Hi Mahmoud");
+  print(encryptedText);
+  print(Encryption.decrypt(key: key, data: encryptedText));
   // EncryptionHelper().encrypt();
   // EncryptionHelper().decrypt();
 }
