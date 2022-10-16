@@ -5,6 +5,4 @@ void main(List<String> args) {
   String encryptedText = Encryption.encrypt(key: key, text: "Hi Mahmoud");
   print(encryptedText);
   print(Encryption.decrypt(key: key, data: encryptedText));
-  // EncryptionHelper().encrypt();
-  // EncryptionHelper().decrypt();
 }

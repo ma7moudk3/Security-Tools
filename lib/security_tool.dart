@@ -29,7 +29,9 @@ bool verifyJsonMessage(String bodyData, String messageFooter, KeyPair keyPair) {
 
 void main(List<String> arguments) {
   KeyPair keyPair = generatePrivateKey();
+  
   PublicKey publicKey = keyPair.publicKey!;
+ 
   PrivateKey privateKey = keyPair.privateKey!;
   print("public Key $publicKey");
   print("private Key ${privateKey.toString()}");

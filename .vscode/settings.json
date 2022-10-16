@@ -2,5 +2,10 @@
     "cSpell.ignoreWords": [
         "PKCS",
         "sublist"
+    ],
+    "cSpell.words": [
+        "Asym",
+        "decryptor",
+        "encryptor"
     ]
 }
