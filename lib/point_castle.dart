@@ -8,7 +8,9 @@
 /// Invoke with "-l" to use longer plaintext.
 
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
+import 'package:basic_utils/basic_utils.dart';
 
 // For using the registry:
 //import 'package:pointycastle/pointycastle.dart';
@@ -20,7 +22,7 @@ import 'package:pointycastle/src/platform_check/platform_check.dart';
 //================================================================
 // Test data
 
-const shortPlaintext = 'What hath God wrought!';
+const shortPlaintext = 'Hi Mahmoud, This is Encryption try';
 
 const longPlaintext = '''
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -56,14 +58,12 @@ AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateRSAkeyPair(
 
   final myPublic = pair.publicKey as RSAPublicKey;
   final myPrivate = pair.privateKey as RSAPrivateKey;
-  
 
   // The RSA numbers will always satisfy these properties
   assert(myPublic.modulus == myPrivate.modulus);
   assert(myPrivate.p! * myPrivate.q! == myPrivate.modulus, 'p.q != n');
   final phi = (myPrivate.p! - BigInt.one) * (myPrivate.q! - BigInt.one);
   assert((myPublic.exponent! * myPrivate.exponent!) % phi == BigInt.one);
-
 
   return AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>(myPublic, myPrivate);
 }
@@ -351,10 +351,9 @@ void _testEncryptAndDecrypt(
       print('\nEncrypting with $scheme:');
     }
     final cipherText = rsaEncrypt(rsaPair.publicKey, plaintext, scheme);
-    if (verbose) {
-      //print('\nPlaintext:\n"$plaintext"');
-      print('Cipher text:\n${bin2hex(cipherText, wrap: 64)}');
-    }
+
+    print('\nPlaintext:\n"$plaintext"');
+    print('Cipher text:\n${base64.encode(cipherText)}');
 
     final decryptedBytes = rsaDecrypt(rsaPair.privateKey, cipherText, scheme);
 
@@ -380,16 +379,21 @@ void _testEncryptAndDecrypt(
 //----------------------------------------------------------------
 
 void main(List<String> args) {
-  var longText = false;
+  //var longText = false;
   var verbose = true;
 
   // Generate an RSA key pair
-  final rsaPair = generateRSAkeyPair(getSecureRandom(), bitLength: 1024);
+  final rsaPair = generateRSAkeyPair(
+    getSecureRandom(),
+  );
   print(dumpRsaKeys(rsaPair, verbose: verbose));
-
+  print(CryptoUtils.encodeRSAPublicKeyToPem(rsaPair.publicKey));
+  print(CryptoUtils.encodeRSAPrivateKeyToPem(rsaPair.privateKey));
+  log("CryptoUtils \n${CryptoUtils.rsaEncrypt(shortPlaintext, rsaPair.publicKey)}");
+  log("CryptoUtils \n${base64.encode(Uint8List.fromList(CryptoUtils.rsaEncrypt(shortPlaintext, rsaPair.publicKey).codeUnits))}");
 
   // Use the key pair
-  final plaintext = (longText) ? longPlaintext : shortPlaintext;
+  final plaintext = shortPlaintext;
   if (verbose) {
     print('Plaintext: $plaintext\n');
   }
